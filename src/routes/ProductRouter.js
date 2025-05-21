@@ -1,14 +1,11 @@
 const express = require('express');
-const ProductManager = require('./ProductManager');
+const productManager = require('../managers/ProductManager');
 
-const app = express();
-const PORT = 8080;
+const router = express.Router();
+const productManager = new productManager('./productos.json');
 
-const productManager = new ProductManager('./productos.json');
+router.use(express.json());
 
-app.use(express.json());
-
-// GET /products
 app.get('/products', async (req, res) => {
     try {
         const products = await productManager.getProducts();
@@ -18,7 +15,6 @@ app.get('/products', async (req, res) => {
     }
 });
 
-// GET /products/:pid
 app.get('/products/:pid', async (req, res) => {
     try {
         const pid = parseInt(req.params.pid);
@@ -29,7 +25,6 @@ app.get('/products/:pid', async (req, res) => {
     }
 });
 
-// POST /
 app.post('/', async (req, res) => {
     try {
         const { title, description, code, price, status, stock, category, thumbnails } = req.body;
@@ -49,7 +44,6 @@ app.post('/', async (req, res) => {
     }
 });
 
-// PUT /:pid
 app.put('/:pid', async (req, res) => {
     try {
         const pid = parseInt(req.params.pid);
@@ -61,7 +55,6 @@ app.put('/:pid', async (req, res) => {
     }
 });
 
-// DELETE /:pid
 app.delete('/:pid', async (req, res) => {
     try {
         const pid = parseInt(req.params.pid);
@@ -72,9 +65,4 @@ app.delete('/:pid', async (req, res) => {
     }
 });
 
-app.use('/api/carts', cartsRouter);
-
-// Iniciar servidor
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
+module.exports = router;

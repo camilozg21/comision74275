@@ -1,13 +1,11 @@
 const express = require('express');
-const CartManager = require('./CartManager');
+const cartManager = require('../managers/CartManager');
 
 const router = express.Router();
-const cartManager = new CartManager('./carts.json');
+const cartManager = new cartManager('./carts.json');
 
-// Middleware para parsear JSON
 router.use(express.json());
 
-// POST / (crear carrito)
 router.post('/', async (req, res) => {
     try {
         const newCart = await cartManager.createCart();
@@ -17,7 +15,6 @@ router.post('/', async (req, res) => {
     }
 });
 
-// GET /:cid (obtener productos de un carrito)
 router.get('/:cid', async (req, res) => {
     try {
         const cid = parseInt(req.params.cid);
@@ -28,7 +25,6 @@ router.get('/:cid', async (req, res) => {
     }
 });
 
-// POST /:cid/product/:pid (agregar producto al carrito)
 router.post('/:cid/product/:pid', async (req, res) => {
     try {
         const cid = parseInt(req.params.cid);
