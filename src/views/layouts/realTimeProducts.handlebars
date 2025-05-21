@@ -1,0 +1,16 @@
+<h1>Lista de Productos en Tiempo Real</h1>
+
+<ul id="product-list">
+    {{#each products}}
+        <li data-id="{{id}}">
+            <strong>{{title}}</strong><br />
+            Precio: ${{price}}<br />
+            Código: {{code}}<br />
+            <button onclick="eliminarProducto({{id}})">Eliminar</button>
+            <hr />
+        </li>
+    {{/each}}
+</ul>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/realtime.js"></script>
